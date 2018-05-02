@@ -7,7 +7,8 @@ class ToolTip extends PureComponent {
             name: 'empty',
             borderStyle: 'dashed',
             borderColor: '#FFF',
-            backgroundColor: '#000'
+            backgroundColor: 'transparent',
+            color: '#FFF'
         };
     }
     render() {
@@ -38,6 +39,8 @@ class ToolTip extends PureComponent {
                         z-index: 1;
 
                         font: normal normal 400 12px/1 Tahoma;
+                        color: ${state.color};
+                        text-shadow: 1px 1px 0 rgba(0,0,0,.25);
                     }
                     .inner 
                     {
@@ -50,6 +53,8 @@ class ToolTip extends PureComponent {
 
                         border: 1px ${state.borderStyle} ${state.borderColor};
                         background-color: ${state.backgroundColor};
+                        border-bottom: none;
+                        border-right: none;
 
                         position: absolute;
                         bottom: calc(100% - 5px);

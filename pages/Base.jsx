@@ -4,9 +4,12 @@ class Base extends Component {
     componentDidMount() {
         if (!document.documentElement.classList.contains('wf-active')) {
             import('webfontloader').then(WebFont =>
-            WebFont.load({
-                google: ['Roboto']
-            }));
+                WebFont.load({
+                    google: {
+                        families: ['Roboto']
+                    }
+                })
+            );
         }
     }
 }
