@@ -5,10 +5,10 @@ class Stage extends PureComponent {
     render() {
         var props = this.props;
         return <div 
-            className={(props.className?props.className:'') + ' stage-placeholder'}>
+            className={(props.className?props.className:'') + ' container'}>
             <style jsx>
             {`
-                .stage-placeholder 
+                .container 
                 {
                     display: flex;
                     position: relative;
@@ -17,10 +17,15 @@ class Stage extends PureComponent {
 
                 @media (max-width: ${breakPoints.stage}px) 
                 {
-                    .stage-placeholder 
+                    .container 
                     {
                         display: none;
                     }
+                }
+
+                :global(html.scroll-top--off-top) .container 
+                {
+                    height: 70px;
                 }
             `}
             </style>

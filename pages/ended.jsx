@@ -9,16 +9,17 @@ import graphql from '../util/graphql';
 import fonts from '../util/fonts';
 import graphqlFragments from '../util/graphqlFragments';
 import gql from 'graphql-tag';
+import Timeout from '../svgs/calendar-timeout.svg';
 
 class Page extends BasePage {
-    static async getInitialProps() {
+    static async getInitialProps(param) {
         var now = new Date();
         return graphql
             .query({
                 query: gql`
                     ${graphqlFragments.CampaignFields}
 
-                    query getIndexData 
+                    query getEndData 
                     {
                         campaigns(where:{
                             end_lt: "${now.toISOString()}"
@@ -29,12 +30,16 @@ class Page extends BasePage {
                     }
                 `
             }).then(result => {
+                var ret;
                 if (result.data) {
-                    return result.data;
+                    ret = result.data;
                 }
                 else {
-                    return result;
+                    ret =result;
                 }
+                return Object.assign({}, {
+                    pathname: param.pathname || window.location.pathname
+                }, ret);
             }, function (result) {
                 throw result;
             });  
@@ -63,9 +68,9 @@ class Page extends BasePage {
                 }
             `}
             </style>
-            <Nav />
+            <Nav pathname={props.pathname} />
             <NavPlaceholder />
-            <Heading1>
+            <Heading1 icon={Timeout}>
                 {'Ended deals'}
             </Heading1>
             <CardHolder campaigns={props.campaigns} featuring={props.featurings && props.featurings[0]} />

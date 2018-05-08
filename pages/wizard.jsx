@@ -1,34 +1,39 @@
 import React from 'react';
 import BasePage from './Base';
 import Nav from '../components/Nav';
-import Stage from '../components/Stage';
-import CardHolder from '../components/CardHolder';
-import Heading1 from '../components/Heading1';
 import Head from 'next/head';
 import graphql from '../util/graphql';
+import fonts from '../util/fonts';
 import graphqlFragments from '../util/graphqlFragments';
 import gql from 'graphql-tag';
+import UrlSearchParams from 'url-search-params';
+import Slide from '../components/Slide';
+import Detail from '../components/Detail';
 
 class Page extends BasePage {
     static async getInitialProps(param) {
-        var now = new Date();
+        var qs = param.query;
+
+        if (!qs) {
+            qs = window.location.search.substr(1);
+        }
+
+        var qsObject = new UrlSearchParams(qs);
+        var id = qsObject.get('id');
+
+        if (!id) {
+            throw new Error('Id must be specified');
+        }
+
         return graphql
             .query({
                 query: gql`
                     ${graphqlFragments.CampaignFields}
 
-                    query getIndexData 
+                    query getDetailData 
                     {
-                        featurings(limit:1)
-                        {
-                            campaign
-                            {
-                                ...CampaignFields
-                            }
-                        }
-                        campaigns(limit:20, where:{
-                            start_lt: "${now.toISOString()}",
-                            end_gt: "${now.toISOString()}"
+                        campaigns(where:{
+                            _id: "${id}"
                         })
                         {
                             ...CampaignFields
@@ -41,7 +46,7 @@ class Page extends BasePage {
                     ret = result.data;
                 }
                 else {
-                    ret = result;
+                    ret =result;
                 }
                 return Object.assign({}, {
                     pathname: param.pathname || window.location.pathname
@@ -58,18 +63,26 @@ class Page extends BasePage {
             </Head>
             <style jsx global>
             {`
-                html,body {
+                html,body 
+                {
                     margin: 0;
                     padding: 0;
+                }
+                .heading
+                {
+                    margin: 30px 0;
+                    font: ${fonts.heading};
+                    text-transform: uppercase;
+                }
+                .heading > .inner 
+                {
+                    margin: 30px;
                 }
             `}
             </style>
             <Nav pathname={props.pathname} />
-            <Stage featuring={props.featurings && props.featurings[0]} />
-            <Heading1>
-                {'More hot deals'}
-            </Heading1>
-            <CardHolder campaigns={props.campaigns} featuring={props.featurings && props.featurings[0]} />
+            <Slide images={props.campaigns[0].item.images} />
+            <Detail campaign={props.campaigns[0]} />
         </div>;
     }
 }

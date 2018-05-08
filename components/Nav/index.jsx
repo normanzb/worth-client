@@ -4,6 +4,16 @@ import Logo from '../../svgs/logo.svg';
 import scrollingElement from '../../util/scrollingElement';
 import breakPoints from '../../util/breakPoints';
 
+function renderLink(href, text) {
+    var className = '';
+    var props = this.props;
+    var pathname = props.pathname;
+    if (pathname === href) {
+        className = 'current';
+    }
+    return <li className={className}><Link href={href}><a>{text}</a></Link></li>;
+}
+
 class Nav extends PureComponent {
     handleGlobalScroll() {
         if (scrollingElement.scrollTop > 0) {
@@ -60,6 +70,7 @@ class Nav extends PureComponent {
                     width: 48px;
                     transition: all .6s ease-in-out;
                     margin-left: 0;
+                    cursor: pointer;
                 }
                 .menu-items
                 {
@@ -70,14 +81,31 @@ class Nav extends PureComponent {
 
                     padding: 0;
                 }
-                .menu-items > li
+                .menu-items > :global(li)
                 {
                     display: block;
                     font: normal normal 400 18px/1 Roboto;
                     text-transform: uppercase;
                     cursor: pointer;
                 }
-                .menu-items > li > :global(a)
+
+                .menu-items > :global(li.current) > :global(a)
+                {
+                    color: #ABABAB;
+                    position: relative;
+                }
+
+                .menu-items > :global(li.current) > :global(a):after 
+                {
+                    display: block;
+                    content: ' ';
+                    position: absolute;
+                    top: 100%;
+                    height: 2px;
+                    background-color: #ABABAB;
+                }
+
+                .menu-items > :global(li) > :global(a)
                 {
                     color: inherit;
                     text-decoration: none;
@@ -109,12 +137,12 @@ class Nav extends PureComponent {
             `}
             </style>
             <div className='logo-container'>
-                <Logo className='logo' />
+                <Link href='/'><Logo className='logo' /></Link>
             </div>
             <ul className='menu-items'>
-                <li><Link href='/index'><a>explore</a></Link></li>
-                <li><Link href='/end'><a>ended</a></Link></li>
-                <li>login</li>
+                {renderLink.call(this, '/', 'explore')}
+                {renderLink.call(this, '/ended', 'ended')}
+                {renderLink.call(this, '/login', 'login')}
             </ul>
         </nav>;
     }

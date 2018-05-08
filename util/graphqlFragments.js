@@ -16,6 +16,7 @@ export default {
             },
             item 
             {
+                _id,
                 name,
                 brief,
                 description,

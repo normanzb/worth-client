@@ -8,15 +8,11 @@ import ToolTipWhite from '../ToolTipWhite';
 import ToolTipBlue from '../ToolTipBlue';
 import ToolTipRed from '../ToolTipRed';
 import currency from '../../util/currency';
+import breakdown from '../../util/breakdown';
 
 var BlackBoard = (props) => {
-    var discountPC = Math.round(props.discount / props.price * 10000) / 100;
-    var cashbackPC = Math.round(props.cashback / props.price * 10000) / 100;
-    var actualPay = props.price - props.cashback - props.discount;
-    var actualPayPC = Math.round(actualPay / props.price * 10000) / 100;
+    var { discountPC, cashbackPC, actualPay, actualPayPC, quotaAvailablePC, quotaTakenPC } = breakdown(props);
     var currencySymbol = currency.symbol(props.currency);
-    var quotaAvailablePC = Math.round((props.quota - props.taken) / props.quota * 10000) / 100;
-    var quotaTakenPC = Math.round(props.taken / props.quota * 10000) / 100;
 
     return <figure 
         className={['black-board', (props.className?props.className:''), props.theme?'theme-' + props.theme:''].join(' ')}>
@@ -27,6 +23,7 @@ var BlackBoard = (props) => {
                 margin: 0;
                 background: #000;
                 color: #FFF;
+                overflow: hidden;
             }
             .black-board.theme-light 
             {
@@ -88,15 +85,19 @@ var BlackBoard = (props) => {
             {
                 right: 0;
             }
+            .content
+            {
+                margin: 1em 0;
+            }
         `}
         </style>
         <div className='inner'>
-            <figcaption>
-                {props.caption}
-            </figcaption>
-            <p>
-                {props.content}
-            </p>
+            {
+                props.disableTitle?null:<figcaption>{props.caption}</figcaption>
+            }
+            {
+                props.disableBrief?null:<p>{props.content}</p>
+            }
             <div className='promotion-details'>
                 <div className='caption'>
                     Price Break Down:
@@ -110,15 +111,21 @@ var BlackBoard = (props) => {
                     <ToolTipBlue className='tool-tip-blue' text={`You pay only ${currencySymbol}${actualPay}`} />
                 </div>
             </div>
-            <div className='progress'>
-                <div className='caption'>
-                    Remaining Slots:
+            {
+                props.disableAvailability?null:
+                <div className='progress'>
+                    <div className='caption'>
+                        Remaining Slots:
+                    </div>
+                    <div className='bars'>
+                        <ProgressBarEmpty starting={true} width={quotaTakenPC + '%'}/>
+                        <ProgressBarRed ending={true} width={quotaAvailablePC + '%'} />
+                        <ToolTipRed className='tool-tip-red' text={quotaAvailablePC + '% left'} />
+                    </div>
                 </div>
-                <div className='bars'>
-                    <ProgressBarEmpty starting={true} width={quotaTakenPC + '%'}/>
-                    <ProgressBarRed ending={true} width={quotaAvailablePC + '%'} />
-                    <ToolTipRed className='tool-tip-red' text={quotaAvailablePC + '% left'} />
-                </div>
+            }
+            <div className='content'>
+                {props.children}
             </div>
         </div>
     </figure>;

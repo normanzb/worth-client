@@ -21,6 +21,7 @@ var CardHolder = (props) => {
 
     var maxWidth = 500;
     var margin = 15;
+    var breakPoint = maxWidth * 2 + margin * 3;
 
     return <div className={['card-holder',(props.className?props.className:'')].join(' ')}>
         <style jsx>
@@ -38,7 +39,7 @@ var CardHolder = (props) => {
                 flex-shrink: 1;
                 flex-basis: 100%;
             }
-            @media (min-width: ${maxWidth * 2 + margin * 3 + 1}px) 
+            @media (min-width: ${breakPoint + 1}px) 
             {
                 .card-holder
                 {
@@ -53,6 +54,18 @@ var CardHolder = (props) => {
                     min-width: ${maxWidth}px;
                     margin: ${margin*2}px ${margin}px;
                     border-radius: 10px;
+                }
+            }
+            @media (max-width: ${breakPoint}px) 
+            {
+                .card-holder > :global(.card)
+                {
+                    margin: ${margin}px 0;
+                }
+                .card-holder > :global(.card):first-child ,
+                .card-holder > :global(.card):last-child 
+                {
+                    margin: 0;
                 }
             }
         `}
