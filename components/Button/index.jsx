@@ -2,10 +2,11 @@ import React from 'react';
 import fonts from '../../util/fonts';
 
 var Heading2 = (props) => {
-    return <div className={['container',(props.className?props.className:'')].join(' ')} onClick={props.onClick}>
+    var shadowHeight = 5;
+    return <div className={['button',(props.className?props.className:''), (props.disabled?'disabled':'')].join(' ')} onClick={props.onClick}>
         <style jsx>
         {`
-            .container
+            .button
             {
                 position: relative;
                 top: 0;
@@ -14,21 +15,23 @@ var Heading2 = (props) => {
                 overflow: hidden;
                 cursor: pointer;
                 border-radius: 10px;
-                box-shadow: 0 5px 0 0 #0d97d0, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
+                box-shadow: 0 ${shadowHeight}px 0 0 #0d97d0, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
                 background-color: #16a7e3;
                 transition: all .3s ease-in-out;
+
+                margin-botto: ${shadowHeight}px;
             }
-            .container:hover
+            .button:hover
             {
-                box-shadow: 0 5px 0 0 #16a7e3, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
+                box-shadow: 0 ${shadowHeight}px 0 0 #16a7e3, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
                 background-color: #08aff5;
             }
-            .container:active
+            .button:active
             {
                 top: 3px;
                 box-shadow: 0 2px 0 0 #16a7e3, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
             }
-            .container:before 
+            .button:before 
             {
                 content: '';
                 display: block;
@@ -39,15 +42,15 @@ var Heading2 = (props) => {
                 height: 1px;
                 box-shadow: 0 0 80px 10px rgba(255,255,255,.8);
             }
-            .container:before::hover
+            .button:before::hover
             {
                 box-shadow: 0 0 100px 20px rgba(255,255,255,1);
             }
-            .container > .inner 
+            .button > .inner 
             {
                 color: #FFF;
                 border: none;
-                height: 50px;
+                min-height: 60px;
                 padding: 0 30px;
 
                 text-align: center;
@@ -56,6 +59,22 @@ var Heading2 = (props) => {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+            }
+
+            .button.disabled
+            {
+                background-color: #EFEFEF;
+                box-shadow: 0 ${shadowHeight}px 0 0 #DFDFDF, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
+            }
+            .button.disabled > .inner 
+            {
+                color: #999;
+                text-shadow: none;
+            }
+            .button.disabled:active
+            {
+                top: 0;
+                box-shadow: 0 ${shadowHeight}px 0 0 #DFDFDF, inset 0 0 30px 0 rgba(255,255,255,0.2), inset 0 1px 1px 0 rgba(255,255,255,0.7);
             }
         `}
         </style>

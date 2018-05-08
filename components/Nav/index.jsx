@@ -55,7 +55,7 @@ class Nav extends PureComponent {
                     position: fixed;
                     top: 0;
                     left: 0;
-                    z-index: 1;
+                    z-index: 3;
 
                     transition: height .6s ease-in-out;
                 }

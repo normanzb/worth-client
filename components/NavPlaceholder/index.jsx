@@ -13,6 +13,8 @@ class Stage extends PureComponent {
                     display: flex;
                     position: relative;
                     height: 100px;
+
+                    transition: height .6s ease-in-out;
                 }
 
                 @media (max-width: ${breakPoints.stage}px) 

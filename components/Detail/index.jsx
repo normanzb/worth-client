@@ -15,9 +15,26 @@ class Detail extends PureComponent {
     render() {
         var props = this.props;
         var campaign = props.campaign;
-        var { downPayment, actualPay } = breakdown(campaign);
+        var { downPayment, actualPay, cashback } = breakdown(campaign);
         var currencySymbol = currency.symbol(campaign.currency);
         var end = new Date(campaign.end);
+
+        function renderButton() {
+            return <div className='cta'>
+                <Link href={'/wizard?id=' + campaign._id}>
+                    <Button className='button'>
+                        <span className='text'>
+                            <span className='normal'>
+                                Get it now for {currencySymbol + actualPay}
+                            </span> 
+                            <span className='small'>
+                                ({currencySymbol + downPayment} down payment, {currencySymbol + cashback} cashback)
+                            </span>
+                        </span>
+                    </Button>
+                </Link>
+            </div>;
+        }
 
         function renderBlackBoard() {
             return end < Date.now()?
@@ -35,7 +52,13 @@ class Detail extends PureComponent {
                     disableTitle={true}
                     disableBrief={true}
                     disableAvailability={true}
-                />:
+                >
+                    <div className='cta'>
+                        <Button className='button' disabled={true}>
+                            Deal Closed
+                        </Button>
+                    </div>
+                </BlackBoard>:
                 <BlackBoard 
                     className='black-board col' 
                     caption={campaign.item.name}
@@ -50,11 +73,7 @@ class Detail extends PureComponent {
                     disableTitle={true}
                     disableBrief={true}
                     >
-                    <div className='cta'>
-                        <Link href={'/wizard?id=' + campaign._id}>
-                            <Button className='button'>Get it now for {currencySymbol + actualPay} (w/ {currencySymbol + downPayment} down payment)</Button>
-                        </Link>
-                    </div>
+                    {renderButton()}
                 </BlackBoard>;
         }
 
@@ -84,7 +103,7 @@ class Detail extends PureComponent {
                 {
                     width: 100%;
                 }
-                .detail > .inner > .col-container > .col > .cta
+                .detail > .inner > .col-container > .col > :global(.cta)
                 {
                     margin: ${margin};
                 }
@@ -92,24 +111,41 @@ class Detail extends PureComponent {
                 {
                     display: none;
                 }
+
+                .detail > .inner :global(.button) :global(.text)
+                {
+                    line-height: 1em;
+                }
+                .detail > .inner :global(.button) :global(.text) > :global(.small)
+                {
+                    display: block;
+                    font-size: .8em;
+                    color: #DEDEDE;
+                }
                 @media (min-width: ${breakPoints.stage + 1}px) 
                 {
                     .detail > .inner > .col-container
                     {
                         display: flex;
                         flex-direction: row-reverse;
+                        align-items: flex-start;
                     }
                     .detail > .inner > .col-container > :global(.col.black-board)
                     {
+                        min-width: 550px;
                         max-width: 50%;
                         display: block;
                         flex-grow: 1;
                         flex-shrink: 0;
                         margin-top: 30px;
+                        margin-right: 30px;
+                        margin-bottom: 30px;
+                        position: sticky;
+                        top: 30px;
                     }
                     .detail > .inner > .col-container > .col.article
                     {
-                        flex-grow: 3;
+                        flex-grow: 0;
                         flex-shrink: 1;
                     }
                     .detail > .inner > .col-container > .col > .cta,
@@ -133,12 +169,8 @@ class Detail extends PureComponent {
                             </div>
                         </div>
                         {
-                            end < Date.now()?null:
-                            <div className='cta'>
-                                <Link href={'/wizard?id=' + campaign._id}>
-                                    <Button className='button'>Get it now for {currencySymbol + actualPay} (w/ {currencySymbol + downPayment} down payment)</Button>
-                                </Link>
-                            </div>
+                            end < Date.now()?null:renderButton()
+                            
                         }
                     </div>
                 </div>
