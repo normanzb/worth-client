@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Link from 'next/link';
 import breakPoints from '../../util/breakPoints';
 import Heading2 from '../Heading2';
-import Button from '../Button';
+import CTA from '../CTA';
 import BlackBoard from '../BlackBoard';
 import fonts from '../../util/fonts';
 import breakdown from '../../util/breakdown';
@@ -19,10 +19,10 @@ class Detail extends PureComponent {
         var currencySymbol = currency.symbol(campaign.currency);
         var end = new Date(campaign.end);
 
-        function renderButton() {
+        function renderCTA() {
             return <div className='cta'>
                 <Link href={'/wizard?id=' + campaign._id}>
-                    <Button className='button'>
+                    <CTA className='button'>
                         <span className='text'>
                             <span className='normal'>
                                 Get it now for {currencySymbol + actualPay}
@@ -31,7 +31,7 @@ class Detail extends PureComponent {
                                 ({currencySymbol + downPayment} down payment, {currencySymbol + cashback} cashback)
                             </span>
                         </span>
-                    </Button>
+                    </CTA>
                 </Link>
             </div>;
         }
@@ -54,9 +54,9 @@ class Detail extends PureComponent {
                     disableAvailability={true}
                 >
                     <div className='cta'>
-                        <Button className='button' disabled={true}>
+                        <CTA className='button' disabled={true}>
                             Deal Closed
-                        </Button>
+                        </CTA>
                     </div>
                 </BlackBoard>:
                 <BlackBoard 
@@ -73,7 +73,7 @@ class Detail extends PureComponent {
                     disableTitle={true}
                     disableBrief={true}
                     >
-                    {renderButton()}
+                    {renderCTA()}
                 </BlackBoard>;
         }
 
@@ -169,7 +169,7 @@ class Detail extends PureComponent {
                             </div>
                         </div>
                         {
-                            end < Date.now()?null:renderButton()
+                            end < Date.now()?null:renderCTA()
                             
                         }
                     </div>

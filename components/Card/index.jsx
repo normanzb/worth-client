@@ -20,13 +20,15 @@ var Card = (props) => {
                 flex-direction: column;
                 position: relative;
                 overflow: hidden;
-                box-shadow: 0 2px 3px 0 rgba(0,0,0,0.3);
 
                 cursor: pointer;
             }
             .card > a 
             {
-                display: block;
+                display: flex;
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-direction: column;
                 text-decoration: none;
             }
             .card > a > .image
@@ -34,8 +36,13 @@ var Card = (props) => {
                 background-color: #cfcfcf;
                 background-size: cover;
                 background-position: 50% 50%;
-                padding-bottom: 80%;
+                padding-bottom: 40%;
                 width: 100%;
+            }
+
+            .card > a > :global(.black-board)
+            {
+                flex-grow: 1;
             }
         `}
         </style>

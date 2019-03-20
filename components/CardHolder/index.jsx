@@ -44,16 +44,16 @@ var CardHolder = (props) => {
                 .card-holder
                 {
                     justify-content: center;
-                    align-items: flex-start;
+                    align-items: stretch;
                     flex-direction: row;
                     flex-wrap: wrap;
+                    padding: 40px 0;
                 }
                 .card-holder > :global(.card)
                 {
                     max-width: ${maxWidth}px;
                     min-width: ${maxWidth}px;
-                    margin: ${margin*2}px ${margin}px;
-                    border-radius: 10px;
+                    margin: ${margin * 2}px ${margin}px;
                 }
             }
             @media (max-width: ${breakPoint}px) 

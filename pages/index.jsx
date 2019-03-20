@@ -6,11 +6,13 @@ import CardHolder from '../components/CardHolder';
 import Heading1 from '../components/Heading1';
 import Head from 'next/head';
 import graphql from '../util/graphql';
+import cookie from '../util/cookie';
 import graphqlFragments from '../util/graphqlFragments';
 import gql from 'graphql-tag';
 
 class Page extends BasePage {
     static async getInitialProps(param) {
+        cookie.init(param);
         var now = new Date();
         return graphql
             .query({
@@ -58,7 +60,8 @@ class Page extends BasePage {
             </Head>
             <style jsx global>
             {`
-                html,body {
+                html,body 
+                {
                     margin: 0;
                     padding: 0;
                 }

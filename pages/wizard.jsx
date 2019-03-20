@@ -4,6 +4,7 @@ import Nav from '../components/Nav';
 import Head from 'next/head';
 import graphql from '../util/graphql';
 import fonts from '../util/fonts';
+import cookie from '../util/cookie';
 import graphqlFragments from '../util/graphqlFragments';
 import gql from 'graphql-tag';
 import UrlSearchParams from 'url-search-params';
@@ -12,6 +13,7 @@ import Detail from '../components/Detail';
 
 class Page extends BasePage {
     static async getInitialProps(param) {
+        cookie.init(param);
         var qs = param.query;
 
         if (!qs) {

@@ -9,6 +9,7 @@ import ToolTipBlue from '../ToolTipBlue';
 import ToolTipRed from '../ToolTipRed';
 import currency from '../../util/currency';
 import breakdown from '../../util/breakdown';
+import fonts from '../../util/fonts';
 
 var BlackBoard = (props) => {
     var { discountPC, cashbackPC, actualPay, actualPayPC, quotaAvailablePC, quotaTakenPC } = breakdown(props);
@@ -27,8 +28,7 @@ var BlackBoard = (props) => {
             }
             .black-board.theme-light 
             {
-                background: #2E2E2E;
-                opacity: .9;
+                background: #000;
             }
             .black-board > .inner
             {
@@ -36,7 +36,7 @@ var BlackBoard = (props) => {
             }
             .black-board > .inner > figcaption 
             {
-                font: normal normal 500 36px/1 Roboto;
+                font: ${fonts.heading3};
                 text-transform: uppercase;
             }
             .black-board > .inner > p 

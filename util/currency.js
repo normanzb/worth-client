@@ -17,7 +17,7 @@ var map = {
 
 function symbol(code) {
     if (!code) {
-        throw 'Code must be specified';
+        throw new Error('Code must be specified');
     }
     code = code.toLowerCase();
     return map[code] ? map[code] : code;

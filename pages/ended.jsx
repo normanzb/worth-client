@@ -7,12 +7,14 @@ import CardHolder from '../components/CardHolder';
 import Head from 'next/head';
 import graphql from '../util/graphql';
 import fonts from '../util/fonts';
+import cookie from '../util/cookie';
 import graphqlFragments from '../util/graphqlFragments';
 import gql from 'graphql-tag';
 import Timeout from '../svgs/calendar-timeout.svg';
 
 class Page extends BasePage {
     static async getInitialProps(param) {
+        cookie.init(param);
         var now = new Date();
         return graphql
             .query({
@@ -52,7 +54,8 @@ class Page extends BasePage {
             </Head>
             <style jsx global>
             {`
-                html,body {
+                html,body 
+                {
                     margin: 0;
                     padding: 0;
                 }
